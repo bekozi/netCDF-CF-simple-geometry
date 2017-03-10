@@ -127,7 +127,6 @@ Using the existing NetCDF-CF convention for auxiliary coordinate variables along
 netcdf multipolygon_example {
 dimensions:
  instance = 2 ;
- part = 3 ;
  node = 15 ;
  time = 5 ;
  strlen = 9 ;
@@ -156,8 +155,7 @@ variables:
    sf:part_type = "part_type" ; // Variable indicating if parts are holes or not -- not required unless polygons with holes are present.
    sf:node_coordinates = "x y" ; // variables containing spatial node data.
  int node_count(instance); // count of coordinates in each instance geometry
- int part_node_count(part) ; // count of coordinates in each geometry part
- int part_type(part) ; // type of each geometry part
+ int part_count(instance) ; // count of parts belonging to each geometry
  double x(node) ;
    x:units = "degrees_east" ;
    x:standard_name = "longitude" ; // or projection_x_coordinate
@@ -195,13 +193,11 @@ data:
   1, 2, 3, 4, 5,
   1, 2, 3, 4, 5 ;
   
- node_count = 10, 5; // first geom has two parts
+ node_count = 10, 5 ;
 
- part_node_count = 5, 5, 5; // three parts
+ part_count = 2, 1 ; // first geom has two parts
  
- part_type = 1, 1, 1 ; // all parts are outside rings
- 
- x = 35, 30, 25, 26, 35, 22, 22, 15, 10, 22, 30, 30, 20, 10, 30 ; // note anti-clockwise order of rings
+ x = 35, 30, 25, 26, 35, 22, 22, 15, 10, 22, 30, 30, 20, 10, 30 ; // note anti-clockwise order of rings indicates outside rings.
  
  y = 25, 30, 28, 23, 25, 22, 27, 25, 20, 22, 10, 20, 20, 15, 10 ;
 }
@@ -217,10 +213,11 @@ Starting from the time series featureType:
 4) Find the `coordinates` attribute of element variables for the instance dimension  
 5) See the `cell_bounds` attribute of the auxiliary coordinate variable
 6) See the `geom_type` in the variable referenced by `cell_bounds`
-8) Iterate over geometries found in the `node_coordinates` variable. Geometries found using the `node_count` variable. Geometry parts found using the `part_node_count` and `part_type` variables.
+8) Iterate over geometries found in the `node_coordinates` variable. Geometries found using the the `node_count` variable Geometry parts found using the `part_count` variable.
 
 Or, without reference to the timeseries:
 
 1) See CF-1.8 conventions  
 2) See the `geom_type` of `multipolygon`
-3) Iterate over geometries found in the `node_coordinates` variable. Geometries found using the `node_count` variable. Geometry parts found using the `part_node_count` and `part_type` variables.
+3) Iterate over geometries found in the `node_coordinates` variable. Geometries found using the the `node_count` variable. Geometry parts found using the `part_count` variable.
+
