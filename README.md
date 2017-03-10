@@ -220,3 +220,4 @@ Or, without reference to the timeseries:
 1) See CF-1.8 conventions  
 2) See the `geom_type` of `multipolygon`
 3) Iterate over geometries found in the `node_coordinates` variable. Geometries found using the the `node_count` variable. Geometry parts found using the `part_count` variable.
+
